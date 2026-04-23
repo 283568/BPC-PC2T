@@ -1,5 +1,7 @@
 package module;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,6 +14,28 @@ public class Database {
     private int idCount = 0;
     private Scanner sc = new Scanner(System.in);
 
+    private Employee findById(int id) {
+        for (Employee e : employees) {
+            if (e.getId() == id) {
+                return e;
+            }
+        }
+        return null; 
+    }
+    
+    private void writeToFile(Employee emp){
+    	try {
+    	      FileWriter myWriter = new FileWriter("employees.txt");
+    	      myWriter.write("id: "+emp.getId()+"\t meno priezvisko: "+emp.getName()+" "+emp.getSurname()+"\t rok: "+emp.getYear());
+    	      myWriter.close(); 
+    	      System.out.println("Zamestnanec zapísaný do súboru.");
+    	    } catch (IOException e) {
+    	      System.out.println("An error occurred.");
+    	      e.printStackTrace();
+    	    }
+    }
+    
+    
     public void addEmployee() {
         try {
             System.out.println("Zadaj číslo skupiny: 1 - Analytik, 2 - Specialista ");
@@ -56,15 +80,6 @@ public class Database {
             System.out.println("!!!Chyba.");
             sc.nextLine(); 
         }
-    }
-    
-    private Employee findById(int id) {
-        for (Employee e : employees) {
-            if (e.getId() == id) {
-                return e;
-            }
-        }
-        return null; 
     }
 
     public void addCooperation() {
@@ -181,6 +196,7 @@ public class Database {
 		System.out.println("skupina: "+emp.getGroup());
 		
 		System.out.println("počet spolupracovníkov: "+emp.getCooperations().size());
+		//pridat statistiky spoluprace??
 		}
 		catch (Exception e) {
 			System.out.println("!!!Chyba.");
@@ -311,9 +327,7 @@ public class Database {
 		
 		
 	}
-
-
-
+	
 	public void groupNums() {
 		if (employees.isEmpty()) {
 	        System.out.println("Databáze je prázdná.");
@@ -343,6 +357,40 @@ public class Database {
 	    		System.out.println(e.getSurname() + " " + e.getName() + " (ID: " + e.getId() + ")");
 	    }	
 	}
+
+	public void writeEmp() {
+		try {
+			System.out.println("Zadaj id zamestnanca, ktorého chceš pridať do súboru.");
+			if (!sc.hasNextInt()) {
+	            System.out.println("!!!Nezadal si číslo. Zadaj id.");
+	            sc.nextLine();
+	            return; 
+	        }
+		int idEmp=sc.nextInt();
+		Employee emp = findById(idEmp);
+		
+		if (emp == null) {
+            System.out.println("!!!Zamestanec sa nenašiel.");
+            return;
+        }
+		writeToFile(emp);
+		}catch (Exception e) {
+	        System.out.println("!!!Chyba: " + e.getMessage());
+	        sc.nextLine();
+	    }
+		
+		
+	}
+	
+
+	public void readEmp() {
+		
+		
+	}
+
+		
+	
+
 	
 	
 }

@@ -57,7 +57,12 @@ public class Main {
 			    case 8:
 			    		db.groupNums();
 			    		break;
-			    		
+			    case 9:
+			    		db.writeEmp();
+			    		break;
+			    case 10:
+			    		db.readEmp();
+			    		break;
 			    case 0:
 			    		run=false;
 			    		break;
