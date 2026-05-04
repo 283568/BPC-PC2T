@@ -1,2 +1,2 @@
-id: 0	 meno priezvisko: l l	 rok: 2003
-id: 1	 meno priezvisko: janka hraksa	 rok: 20211
+id: 1	 meno priezvisko: janko htrasko	 rok: 515
+id: 2	 meno priezvisko: katka matsisic	 rok: 215

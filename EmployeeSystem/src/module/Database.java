@@ -13,7 +13,7 @@ import java.util.InputMismatchException;
 
 public class Database {
     private List<Employee> employees = new ArrayList<>();
-    private int idCount = 0;
+    private int idCount = 1;
     private Scanner sc = new Scanner(System.in);
 
     private Employee findById(int id) {
@@ -24,21 +24,6 @@ public class Database {
         }
         return null; 
     }
-    
-    private void writeToFile(Employee emp){
-	    	try {
-	    	      File myFile = new File("employees.txt");
-	    	      FileWriter myWriter = new FileWriter(myFile, true);
-	    	      myWriter.write("id: "+emp.getId()+"\t meno priezvisko: "+emp.getName()+" "+emp.getSurname()+"\t rok: "+emp.getYear()+"\n");
-	    	      myWriter.close(); 
-	    	      System.out.println("Zamestnanec zapísaný do súboru.");
-	    	    } catch (IOException e) {
-	    	      System.out.println("An error occurred.");
-	    	      e.printStackTrace();
-	    	    }
-	    	
-	    }
-    
     
     public void addEmployee() {
         try {
@@ -362,6 +347,20 @@ public class Database {
 	    }	
 	}
 
+	 private void writeToFile(Employee emp){
+	    	try {
+	    	      File myFile = new File("employees.txt");
+	    	      FileWriter myWriter = new FileWriter(myFile, true);
+	    	      myWriter.write("id: "+emp.getId()+"\t meno priezvisko: "+emp.getName()+" "+emp.getSurname()+"\t rok: "+emp.getYear()+"\n");
+	    	      myWriter.close(); 
+	    	      System.out.println("Zamestnanec zapísaný do súboru.");
+	    	    } catch (IOException e) {
+	    	      System.out.println("An error occurred.");
+	    	      e.printStackTrace();
+	    	    }
+	    	
+	    }
+	 
 	public void writeEmp() {
 		try {
 			System.out.println("Zadaj id zamestnanca, ktorého chceš pridať do súboru.");
@@ -386,22 +385,32 @@ public class Database {
 		
 		
 	}
-	
-	//test ci viem citat cely subor
-	public void readFile() {
-		File myObj = new File("employees.txt");
-		try (Scanner myReader = new Scanner(myObj)) {
-		      while (myReader.hasNextLine()) {
-		        String data = myReader.nextLine();
-		        System.out.println(data);
-		      }
+
+	public void readFile(int idEmp) {
+	    File myObj = new File("employees.txt");
+	    try (Scanner myReader = new Scanner(myObj)) {
+	        boolean finds = false;
+	        while (myReader.hasNextLine()) {
+	            String data = myReader.nextLine();
+	            if (data.startsWith("id: ")) {
+	                String idPart = data.split("\t")[0]; // "id: 1"
+	                int fileId = Integer.parseInt(idPart.replace("id: ", "").trim());
+	                if (fileId == idEmp) {
+	                    System.out.println(data);
+	                    finds = true;
+	                }
+	            }
+	        }
+		    	  	if(finds=false) {
+		    	  		System.out.println("Zamestnanec v súbore neni.");
+		    	  	}
+		    	  	
 		    } catch (FileNotFoundException e) {
 		      System.out.println("An error occurred.");
 		      e.printStackTrace();
 		    }
 	}
 
-	
 	public void readEmp() {
 		try {
 			System.out.println("Zadaj id zamestnanca, ktorého chceš načítať zo súboru.");
@@ -410,7 +419,9 @@ public class Database {
 	            sc.nextLine();
 	            return; 
 	        }
-			readFile();
+			int idEmp=sc.nextInt();
+	        sc.nextLine();
+			readFile(idEmp);
 			}catch (Exception e) {
 		        System.out.println("!!!Chyba: " + e.getMessage());
 		        sc.nextLine();
