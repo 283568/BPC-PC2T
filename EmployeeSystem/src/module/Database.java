@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -281,9 +282,74 @@ public class Database {
 	}
 
 	public void printStats() {
-		System.out.println("Štatistiky:");
-		
-		
+	    System.out.println("\nŠtatistiky:");
+	    
+	    int spatnaCount = 0;      
+	    int prumernaCount = 0;   
+	    int dobraCount = 0;      
+	    int allConnections = 0;
+	    
+	    for (Employee emp : employees) {
+	        if (emp != null) {
+	            Map<Integer, CooperationLevel> cooperations = emp.getCooperations();
+	            
+	            for (CooperationLevel level : cooperations.values()) {
+	                if (level == CooperationLevel.SPATNA) {
+	                    spatnaCount++;
+	                } else if (level == CooperationLevel.PRUMERNA) {
+	                    prumernaCount++;
+	                } else if (level == CooperationLevel.DOBRA) {
+	                    dobraCount++;
+	                }
+	                allConnections++;
+	            }
+	        }
+	    }
+	   
+	    System.out.println("\nPřevažující kvalita spolupráce");
+	    if (allConnections == 0) {
+	        System.out.println("!!!Spolupraca neexistuje.");
+	    } else {
+	        System.out.printf("Spatna spoluprace: %d spoluprac (%.1f%%)\n", 
+	                spatnaCount, (spatnaCount * 100.0 / allConnections)/2);
+	        System.out.printf("Prumerna spoluprace: %d spoluprac (%.1f%%)\n", 
+	                prumernaCount, (prumernaCount * 100.0 / allConnections)/2);
+	        System.out.printf("Dobra spoluprace: %d spoluprac (%.1f%%)\n", 
+	                dobraCount, (dobraCount * 100.0 / allConnections)/2);
+	        
+	        System.out.print("\nPrevazuje: ");
+	        if (spatnaCount >= prumernaCount && spatnaCount >= dobraCount) {
+	            System.out.println("Spatna spoluprace");
+	        } else if (prumernaCount >= spatnaCount && prumernaCount >= dobraCount) {
+	            System.out.println("prumerna spoluprace");
+	        } else {
+	            System.out.println("dobra spoluprace");
+	        }
+	    }
+	    
+	    System.out.println("\nZaměstnanec s nejvíce vazbami:");
+	    Employee employeeWithMostConnections = null;
+	    int maxConnections = -1;
+	    
+	    for (Employee emp : employees) {
+	        if (emp != null) {
+	            int connectionCount = emp.getCooperations().size();  
+	            if (connectionCount > maxConnections) {
+	                maxConnections = connectionCount;
+	                employeeWithMostConnections = emp;
+	            }
+	        }
+	    }
+	   
+	    if (employeeWithMostConnections == null) {
+	        System.out.println("!!!Žiadni zamestnanci");
+	    } else {
+	        System.out.printf("   %s %s (ID: %d) - %d spolupracovnici\n",
+	                employeeWithMostConnections.getName(),
+	                employeeWithMostConnections.getSurname(),
+	                employeeWithMostConnections.getId(),
+	                maxConnections);
+	    }
 	}
 	
 	public void groupNums() {
