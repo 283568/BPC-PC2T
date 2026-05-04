@@ -1,6 +1,7 @@
 package module;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -386,11 +387,40 @@ public class Database {
 		
 	}
 	
+	//test ci viem citat cely subor
+	public void readFile() {
+		File myObj = new File("employees.txt");
+		try (Scanner myReader = new Scanner(myObj)) {
+		      while (myReader.hasNextLine()) {
+		        String data = myReader.nextLine();
+		        System.out.println(data);
+		      }
+		    } catch (FileNotFoundException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+	}
 
+	
 	public void readEmp() {
+		try {
+			System.out.println("Zadaj id zamestnanca, ktorého chceš načítať zo súboru.");
+			if (!sc.hasNextInt()) {
+	            System.out.println("!!!Nezadal si číslo. Zadaj id.");
+	            sc.nextLine();
+	            return; 
+	        }
+			readFile();
+			}catch (Exception e) {
+		        System.out.println("!!!Chyba: " + e.getMessage());
+		        sc.nextLine();
+	        }
 		
 		
 	}
+		
+		
+	
 
 		
 	
