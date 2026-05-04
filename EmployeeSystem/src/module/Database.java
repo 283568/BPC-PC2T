@@ -73,7 +73,7 @@ public class Database {
 
     public void addCooperation() {
         try {
-            System.out.print("Zadejte ID zamestnanca (0,1,2...): ");
+            System.out.print("Zadejte ID zamestnanca (1,2...): ");
             if (!sc.hasNextInt()) {
                 System.out.println("!!!Nezadal si číslo. Zadaj id.");
                 sc.nextLine();
@@ -224,44 +224,13 @@ public class Database {
 }
 	
 	private void analystSkills(Employee employee) {
-		int maxCount=0;
-		String coworker=" ";
-		for(Employee i:employees) {
-			if(i.getId()==employee.getId()) 
-				continue;
-			int count=0;
-			for(Integer coworkerId : employee.getCooperations().keySet()) {
-				if(i.getCooperations().containsKey(coworkerId)) {
-					count++;
-					}
-				}
-			
-		if(count>maxCount) {
-			maxCount=count;
-			coworker=i.getName()+" "+i.getSurname();
-			}
-		}
-		System.out.println("najviac spoločných spolupracovníkov má s "+coworker);
-		System.out.println("počet spoločných coworkers: "+maxCount);
+		System.out.println("Skilly datoveho analytika:");
 		
 	}
 		
 	
 	private void securitySkills(Employee employee) {
-		if(employee.getCooperations().isEmpty()) {
-			System.out.println("Rizikové skóre: 0,0%... väzby neboli nájdené!");
-		}
-		double coopValue=0;
-		for(CooperationLevel level : employee.getCooperations().values()) {
-			coopValue+=level.getValue();
-		}
-		int count=employee.getCooperations().size();
-		double average = coopValue/count;
-		int maxLevel = CooperationLevel.getMaxPossibleValue();
-		double riskScore = count * ((maxLevel + 1) - average);
-
-	    System.out.println("Max level: " + maxLevel);
-	    System.out.println("Rizikové skóre: " + String.format("%.2f", riskScore));
+		System.out.println("Skilly bezpecnostniho specialistu:");
 	}
 
 	public void printAlphabetically() {
@@ -429,9 +398,13 @@ public class Database {
 		
 		
 	}
+/*
+	public void konec() {
+		System.out.println("tu bude sql");
+	}
 		
 		
-	
+	*/
 
 		
 	
