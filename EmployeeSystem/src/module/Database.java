@@ -1,5 +1,6 @@
 package module;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,16 +25,18 @@ public class Database {
     }
     
     private void writeToFile(Employee emp){
-    	try {
-    	      FileWriter myWriter = new FileWriter("employees.txt");
-    	      myWriter.write("id: "+emp.getId()+"\t meno priezvisko: "+emp.getName()+" "+emp.getSurname()+"\t rok: "+emp.getYear());
-    	      myWriter.close(); 
-    	      System.out.println("Zamestnanec zapísaný do súboru.");
-    	    } catch (IOException e) {
-    	      System.out.println("An error occurred.");
-    	      e.printStackTrace();
-    	    }
-    }
+	    	try {
+	    	      File myFile = new File("employees.txt");
+	    	      FileWriter myWriter = new FileWriter(myFile, true);
+	    	      myWriter.write("id: "+emp.getId()+"\t meno priezvisko: "+emp.getName()+" "+emp.getSurname()+"\t rok: "+emp.getYear()+"\n");
+	    	      myWriter.close(); 
+	    	      System.out.println("Zamestnanec zapísaný do súboru.");
+	    	    } catch (IOException e) {
+	    	      System.out.println("An error occurred.");
+	    	      e.printStackTrace();
+	    	    }
+	    	
+	    }
     
     
     public void addEmployee() {
@@ -367,6 +370,7 @@ public class Database {
 	            return; 
 	        }
 		int idEmp=sc.nextInt();
+		sc.nextLine();
 		Employee emp = findById(idEmp);
 		
 		if (emp == null) {
