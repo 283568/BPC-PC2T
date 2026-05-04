@@ -347,7 +347,7 @@ public class Database {
 	    }	
 	}
 
-	 private void writeToFile(Employee emp){
+	 private void writeFile(Employee emp){
 	    	try {
 	    	      File myFile = new File("employees.txt");
 	    	      FileWriter myWriter = new FileWriter(myFile, true);
@@ -377,7 +377,7 @@ public class Database {
             System.out.println("!!!Zamestanec sa nenašiel.");
             return;
         }
-		writeToFile(emp);
+		writeFile(emp);
 		}catch (Exception e) {
 	        System.out.println("!!!Chyba: " + e.getMessage());
 	        sc.nextLine();
