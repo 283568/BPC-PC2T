@@ -64,7 +64,7 @@ public class Main {
 			    		db.readEmp();
 			    		break;
 			    case 0:
-			    		//db.konec();
+			    		db.konec();
 			    		run=false;
 			    		break;
 			    case -1:
