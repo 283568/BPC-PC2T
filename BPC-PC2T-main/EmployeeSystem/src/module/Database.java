@@ -187,7 +187,7 @@ public class Database {
 		System.out.println("skupina: "+emp.getGroup());
 		
 		System.out.println("počet spolupracovníkov: "+emp.getCooperations().size());
-		//pridat statistiky spoluprace??
+		
 		}
 		catch (Exception e) {
 			System.out.println("!!!Chyba.");
@@ -213,7 +213,7 @@ public class Database {
 		System.out.println("zamestnanec patrí do skupiny: "+emp.getGroup());
 		if (emp.getGroup().equals("Datový analytik")) {
 
-    int maxCommon = -1;
+    int maxCommon = 0;
     Employee best = null;
 
     for (Employee other : employees) {
@@ -514,10 +514,12 @@ public void konec() {
         Statement st = conn.createStatement();
 
         st.execute("CREATE TABLE IF NOT EXISTS zamestnanci (id INT, meno TEXT, priezvisko TEXT, rok INT, skupina TEXT)");
-
+        st.execute("DELETE FROM zamestnanci");
+        
         for (Employee e : employees) {
             PreparedStatement ps = conn.prepareStatement(
                 "INSERT OR REPLACE INTO zamestnanci VALUES (?, ?, ?, ?, ?)"
+            	
             );
 
             ps.setInt(1, e.getId());
@@ -537,5 +539,3 @@ public void konec() {
     }
 }
 }
-//testing commit to github ^._.^
-//test push
