@@ -26,6 +26,7 @@ public class Database {
         return null; 
     }
     
+    //hehe
     public void addEmployee() {
         try {
             System.out.println("Zadaj číslo skupiny: 1 - Analytik, 2 - Specialista ");
