@@ -262,7 +262,7 @@ public class Database {
 
     System.out.println("Rizikové skóre: " + riziko);
 }
-		}
+		
     } catch (Exception e) {
         System.out.println("!!!Chyba: " + e.getMessage());
         sc.nextLine();
@@ -540,9 +540,3 @@ public class Database {
 }
 
 }
-<<<<<<< HEAD
-//testing commit to github ^._.^
-//ide push??
-=======
-
->>>>>>> branch 'main' of https://github.com/283568/BPC-PC2T.git
