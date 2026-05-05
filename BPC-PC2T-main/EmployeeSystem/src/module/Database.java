@@ -517,7 +517,7 @@ public void konec() {
 
         for (Employee e : employees) {
             PreparedStatement ps = conn.prepareStatement(
-                "INSERT INTO zamestnanci VALUES (?, ?, ?, ?, ?)"
+                "INSERT OR REPLACE INTO zamestnanci VALUES (?, ?, ?, ?, ?)"
             );
 
             ps.setInt(1, e.getId());
