@@ -211,12 +211,55 @@ public class Database {
         }
 		System.out.println("zamestnanec patrí do skupiny: "+emp.getGroup());
 		if (emp.getGroup().equals("Datový analytik")) {
-			System.out.println("dokážou určit, s kterých spolupracovníkem mají nejvíce společných spolupracovníků.");
-			analystSkills(emp);
-		}
+
+    int maxCommon = -1;
+    Employee best = null;
+
+    for (Employee other : employees) {
+        if (other == emp) continue;
+
+        int common = 0;
+
+        for (Integer id : emp.getCooperations().keySet()) {
+            if (other.getCooperations().containsKey(id)) {
+                common++;
+            }
+        }
+
+        if (common > maxCommon) {
+            maxCommon = common;
+            best = other;
+        }
+    }
+
+    if (best != null) {
+        System.out.println("Najviac spoločných spolupracovníkov má s: "
+                + best.getName() + " " + best.getSurname()
+                + " (" + maxCommon + ")");
+    } else {
+        System.out.println("Žiadni spolupracovníci.");
+    }
+}
 		else if (emp.getGroup().equals("Bezpečnostní specialista")) {
-        		System.out.println(" dokážou vyhodnotit rizikovost spolupráce na základě počtu spolupracovníků a průměrné kvality spolupráce a vypočítat rizikové skóre ");
-        		securitySkills(emp);
+
+    int pocet = emp.getCooperations().size();
+
+    if (pocet == 0) {
+        System.out.println("Žiadne spolupráce.");
+        return;
+    }
+
+    double sum = 0;
+
+    for (CooperationLevel lvl : emp.getCooperations().values()) {
+        sum += lvl.getValue();
+    }
+
+    double prumer = sum / pocet;
+    double riziko = pocet * (3 - prumer);
+
+    System.out.println("Rizikové skóre: " + riziko);
+}
 		}
     } catch (Exception e) {
         System.out.println("!!!Chyba: " + e.getMessage());
@@ -464,13 +507,35 @@ public class Database {
 		
 		
 	}
-/*
 	public void konec() {
-		System.out.println("tu bude sql");
-	}
-		
-		
-	*/
+    try {
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:zamestnanci.db");
+
+        Statement st = conn.createStatement();
+
+        st.execute("CREATE TABLE IF NOT EXISTS zamestnanci (id INT, meno TEXT, priezvisko TEXT, rok INT, skupina TEXT)");
+
+        for (Employee e : employees) {
+            PreparedStatement ps = conn.prepareStatement(
+                "INSERT INTO zamestnanci VALUES (?, ?, ?, ?, ?)"
+            );
+
+            ps.setInt(1, e.getId());
+            ps.setString(2, e.getName());
+            ps.setString(3, e.getSurname());
+            ps.setInt(4, e.getYear());
+            ps.setString(5, e.getGroup());
+
+            ps.executeUpdate();
+        }
+
+        conn.close();
+        System.out.println("Dáta boli uložené do SQL databázy.");
+
+    } catch (Exception e) {
+        System.out.println("Chyba pri ukladaní do databázy: " + e.getMessage());
+    }
+}
 
 }
 //testing commit to github ^._.^
