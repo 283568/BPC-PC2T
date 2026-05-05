@@ -186,7 +186,7 @@ public class Database {
 		System.out.println("skupina: "+emp.getGroup());
 		
 		System.out.println("počet spolupracovníkov: "+emp.getCooperations().size());
-		//pridat statistiky spoluprace??
+		
 		}
 		catch (Exception e) {
 			System.out.println("!!!Chyba.");
@@ -538,4 +538,4 @@ public class Database {
 }
 
 }
-//testing commit to github ^._.^
+
